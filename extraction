@@ -1,8 +1,10 @@
 import csv
 import os
 import pandas as pd
-import pandas as pd
+import datetime
 pd.set_option('display.max_rows', 100)
+
+
 
 
 def extraire_ISIN(isin , nom_du_fichier):
@@ -40,11 +42,11 @@ def retraiter_données(fichier_source, fichier_out):
     ######################################################################
     print("organisation des colonnes...")
     ######################################################################
-    tableau['timestamp'] = tableau[2].astype(str) + ' ' + tableau[3].astype(str)
+    tableau[2] = tableau[2].astype(str) + ' ' + tableau[3].astype(str)
 
 
 
-    tableau['timestamp'] = pd.to_datetime(tableau['timestamp'], format='%y%m%d %H:%M',yearfirst=True)
+    tableau[2] = pd.to_datetime(tableau[2], format='%y%m%d %H:%M',yearfirst=True)
 
     del tableau[3]
 
@@ -56,15 +58,16 @@ def retraiter_données(fichier_source, fichier_out):
     print('ok1')
 
 
-    tableau = tableau.sort_values('timestamp')
+    tableau = tableau.sort_values(2)
 
-    tableau.set_index((tableau.timestamp), inplace=True)
-    del tableau['timestamp']
-    print(tableau)
-    print(tableau.index.get_duplicates())
+    tableau.set_index((tableau[2]), inplace=True)
+    del tableau[2]
+
+
+
     tableau.index = pd.to_datetime(tableau.index)
-    tableau = tableau.asfreq('1min', method='pad') 
-    tableau['timestamp'] = tableau.index.values
+    tableau = tableau.asfreq('1min', method='pad')
+
 
     print(tableau)
 
@@ -94,4 +97,4 @@ def retraiter_données(fichier_source, fichier_out):
 isin = "FR0000125007"
 nom = "SGOB"
 extraire_ISIN(isin,nom)
-retraiter_données('SGOB.txt','
+retraiter_données('SGOB.txt','SGOB_retraité.txt')

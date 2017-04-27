@@ -63,7 +63,7 @@ def retraiter_données(fichier_source, fichier_out):
     print(tableau)
     print(tableau.index.get_duplicates())
     tableau.index = pd.to_datetime(tableau.index)
-    tableau = tableau.asfreq('1min', method='pad') 'ici ça foire'
+    tableau = tableau.asfreq('1min', method='pad') 
     tableau['timestamp'] = tableau.index.values
 
     print(tableau)

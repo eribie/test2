@@ -24,7 +24,7 @@ def extraire_ISIN(isin , nom_du_fichier):
 
             f.close()
 
-    with open(nom_du_fichier + '.txt', 'w', encoding='utf8', newline='') as myfile:
+    with open(nom_du_fichier, 'w', encoding='utf8', newline='') as myfile:
         wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
         wr.writerows(List)
 
